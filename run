@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ELASTICSEARCH_SERVICE_HOST=$1
+
+if [ -z "$ELASTICSEARCH_SERVICE_HOST" ]
+then
+  echo "ELASTICSEARCH_SERVICE_HOST not set"
+else
+  echo "ELASTICSEARCH_SERVICE_HOST=$ELASTICSEARCH_SERVICE_HOST"
+  docker run -e ELASTICSEARCH_SERVICE_HOST=$ELASTICSEARCH_SERVICE_HOST -v /sys:/sys:ro -v /var/run/docker.sock:/run/docker.sock -v /var/lib/docker/containers:/var/lib/docker/containers -v `pwd`/td-agent.conf:/etc/td-agent/td-agent.conf -v `pwd`:/docker -w /docker -d fluentd
+fi
+
